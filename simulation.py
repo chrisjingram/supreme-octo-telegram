@@ -159,7 +159,7 @@ class TestSimulation(unittest.TestCase):
 
 		(output, turns) = sim.generate_output(drone, order_0)
 		self.assertEqual(4, turns)
-		print output
+		self.assertEqual(['0 L 0 0 n', '0 D 0 0 n'], output)
 
 	def test_basic_euclidean(self):
 		self.assertEqual(5, euclidean_distance(0, 0, 3, 4))
