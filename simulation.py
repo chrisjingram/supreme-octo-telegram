@@ -245,7 +245,7 @@ class TestSimulation(unittest.TestCase):
 	def test_basic_euclidean(self):
 		self.assertEqual(5, euclidean_distance(0, 0, 3, 4))
 
-	def test_basic_euclidean(self):
+	def test_get_turns(self):
 		self.assertEqual(2, get_turns_for_distances(0, 0, 1, 1))
 
 	def test_greatest_x_y(self):
