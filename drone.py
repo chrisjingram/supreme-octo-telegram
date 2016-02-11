@@ -10,6 +10,9 @@ class Drone(object):
 	def add_product(self, product, amount):
 		self.products[product] += amount
 
+	def remove_product(self, product, amount):
+		self.products[product] -= amount
+
 	def calculate_weight(self):
 		total = 0
 		for key in self.products.keys():
@@ -34,6 +37,12 @@ class TestAll(unittest.TestCase):
 		drone.add_product(1,1)
 		drone.add_product(1,1)
 		self.assertEqual(2, drone.calculate_weight())
+
+	def test_drone_loses_weight(self):
+		drone = Drone(0,0,1)
+		drone.add_product(1,2)
+		drone.remove_product(1,1)
+		self.assertEqual(1, drone.calculate_weight())
 
 print "--------------------"
 unittest.main()
