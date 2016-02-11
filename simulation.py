@@ -21,6 +21,17 @@ class Simulation():
 		drone.remove_product(product, amount)
 		# Order may want to show collection
 
+	def find_closest_warehouse_for_product(self, drone, product):
+		best_distance = 10000000
+		best_warehouse = None
+		for warehouse in self.warehouses:
+			temp_dist = get_turns_for_distances(drone.x, drone.y, warehouse.x, warehouse.y)
+			if temp_dist < best_distance:
+				best_distance = temp_dist
+				best_warehouse = warehouse
+
+		return (best_warehouse, best_distance)
+
 	def calculate_minimum_turns(self, drone, order):
 		turns = 0
 
@@ -28,13 +39,16 @@ class Simulation():
 		amount = order.products[product]
 
 		# Find closest warehouse for item p
-		warehouse = self.warehouses[0] # replace
+		(warehouse, warehouse_turns_distance) = self.find_closest_warehouse_for_product(drone, product)
+		turns += warehouse_turns_distance
+		drone.x = warehouse.x
+		drone.y = warehouse.y
+
 		self.load_products_from_warehouse_to_drone(warehouse, drone, product, amount)
 		turns += 1
 
 		# Go to order location
-		distance = euclidean_distance(drone.x, drone.y, order.x, order.y)
-		turns_for_distance = int(math.ceil(distance))
+		turns_for_distance = get_turns_for_distances(drone.x, drone.y, order.x, order.y)
 		turns += turns_for_distance
 
 		# Drop order
@@ -44,7 +58,8 @@ class Simulation():
 		return turns
 
 	
-
+def get_turns_for_distances(x1, y1, x2, y2):
+	return int(math.ceil(euclidean_distance(x1, y1, x2, y2)))
 
 def euclidean_distance(x1, y1, x2, y2):
 	return math.sqrt((x1-x2)**2 + (y1-y2)**2)
@@ -100,8 +115,27 @@ class TestSimulation(unittest.TestCase):
 
 		self.assertEqual(13, sim.calculate_minimum_turns(drone, order_0))
 
+	def test_we_can_complete_example_1_but_with_different_starting_position(self):
+		drone = Drone(1, 2, 1000)
+		product_p = Product(0, 5)
+
+		products_0 = {}
+		products_0[product_p] = 1000
+		warehouse_0 = Warehouse(1, 3, products_0)
+
+		order_0_products = {}
+		order_0_products[product_p] = 5
+		order_0 = Order(1, 4, order_0_products)
+
+		sim = Simulation([drone], [warehouse_0])
+
+		self.assertEqual(4, sim.calculate_minimum_turns(drone, order_0))
+
 	def test_basic_euclidean(self):
 		self.assertEqual(5, euclidean_distance(0, 0, 3, 4))
+
+	def test_basic_euclidean(self):
+		self.assertEqual(2, get_turns_for_distances(0, 0, 1, 1))
 
 if __name__ == "__main__":
 	unittest.main()
