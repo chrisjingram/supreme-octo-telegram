@@ -2,6 +2,7 @@ from drone import *
 from product import *
 from warehouse import *
 from order import *
+import math
 
 class Simulation():
 	def __init__(self, drones, warehouses):
@@ -32,7 +33,7 @@ class Simulation():
 		turns += 1
 
 		# Go to order location
-		distance = 1 # replace
+		distance = euclidean_distance(drone.x, drone.y, order.x, order.y)
 		turns_for_distance = 1
 		turns += turns_for_distance
 
@@ -42,6 +43,11 @@ class Simulation():
 
 		return turns
 
+	
+
+
+def euclidean_distance(x1, y1, x2, y2):
+	return math.sqrt((x1-x2)**2 + (y1-y2)**2)
 
 import unittest
 
@@ -77,6 +83,9 @@ class TestSimulation(unittest.TestCase):
 		sim = Simulation([drone], [warehouse_0])
 
 		self.assertEqual(3, sim.calculate_minimum_turns(drone, order_0))
+
+	def test_basic_euclidean(self):
+		self.assertEqual(5, euclidean_distance(0, 0, 3, 4))
 
 if __name__ == "__main__":
 	unittest.main()
