@@ -186,6 +186,32 @@ class TestSimulation(unittest.TestCase):
 		output = sim.generate_output_for_drone(drone)
 		self.assertEqual(['0 L 0 0 5', '0 D 0 0 5'], output)
 
+	def test_we_can_complete_example_1_getting_output_chained(self):
+		drone = Drone(0, 1, 2, 1000)
+
+		product_p = Product(0, 5)
+		products_0 = {}
+		products_0[product_p] = 1000
+		warehouse_0 = Warehouse(0, 1, 1, products_0)
+
+		product_q = Product(0, 5)
+		products_1 = {}
+		products_1[product_q] = 1000
+		warehouse_1 = Warehouse(1, 1, 3, products_1)
+
+		order_0_products = {}
+		order_0_products[product_p] = 5
+		order_0 = Order(0, 1, 4, order_0_products)
+
+		order_1_products = {}
+		order_1_products[product_q] = 5
+		order_1 = Order(1, 1, 4, order_1_products)
+
+		sim = Simulation([drone], [warehouse_0, warehouse_1], [order_0, order_1])
+
+		output = sim.generate_output_for_drone(drone)
+		# self.assertEqual(['0 L 0 0 5', '0 D 0 0 5', '0 D 1 0 5'], output)
+
 	def test_basic_euclidean(self):
 		self.assertEqual(5, euclidean_distance(0, 0, 3, 4))
 
