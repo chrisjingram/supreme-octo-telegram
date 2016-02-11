@@ -48,7 +48,7 @@ class Simulation():
 		turns += warehouse_turns_distance
 		if (warehouse_turns_distance > 0):
 			# output.append("Move to warehouse")
-			output.append("%s L %s %s n" % (drone.id, warehouse.id, product.type))
+			output.append("%s L %s %s %s" % (drone.id, warehouse.id, product.type, amount))
 			drone.x = warehouse.x
 			drone.y = warehouse.y
 
@@ -65,7 +65,7 @@ class Simulation():
 		self.unload_products_from_drone_to_order(drone, order, product, amount)
 		turns += 1
 		# output.append("Drop off items")
-		output.append("%s D %s %s n" % (drone.id, order.id, product.type))
+		output.append("%s D %s %s %s" % (drone.id, order.id, product.type, amount))
 
 		return (output, turns)
 
@@ -159,7 +159,7 @@ class TestSimulation(unittest.TestCase):
 
 		(output, turns) = sim.generate_output(drone, order_0)
 		self.assertEqual(4, turns)
-		self.assertEqual(['0 L 0 0 n', '0 D 0 0 n'], output)
+		self.assertEqual(['0 L 0 0 5', '0 D 0 0 5'], output)
 
 	def test_basic_euclidean(self):
 		self.assertEqual(5, euclidean_distance(0, 0, 3, 4))
