@@ -22,6 +22,9 @@ class Warehouse(object):
 			total += self.products[key]
 		return total
 
+	def __hash__(self):
+		return hash([self.x, self.y, self.products])
+
 
 import unittest
 
