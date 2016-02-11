@@ -1,6 +1,6 @@
 class Product(object):
-	def __init__(self,type,weight):
-		self.type = type
+	def __init__(self,type_,weight):
+		self.type = type_
 		self.weight = weight
 
 	def __hash__(self):
