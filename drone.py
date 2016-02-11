@@ -9,7 +9,12 @@ class Drone(object):
 		self.products = defaultdict(int)
 
 	def add_product(self, product, amount):
-		self.products[product] += amount
+		new_weight = self.calculate_weight() + product.weight
+		if(new_weight <= self.capacity):
+			self.products[product] += amount
+			return True
+		else:
+			return False
 
 	def remove_product(self, product, amount):
 		self.products[product] -= amount
@@ -34,9 +39,9 @@ class TestDrone(unittest.TestCase):
 		self.assertEqual(1, drone.calculate_weight())
 
 	def test_drone_has_weight_two_products(self):
-		drone = Drone(0,0,1)
-		drone.add_product(Product(0, 1), 1)
-		drone.add_product(Product(0, 1), 1)
+		drone = Drone(0,0,2)
+		self.assertEqual(True,drone.add_product(Product(0, 1), 1))
+		self.assertEqual(True,drone.add_product(Product(0, 1), 1))
 		self.assertEqual(2, drone.calculate_weight())
 
 	def test_drone_can_calculate_weight_of_differently_sized_products(self):
@@ -51,6 +56,12 @@ class TestDrone(unittest.TestCase):
 		drone.add_product(Product(0, 1), 2)
 		drone.remove_product(Product(0, 1), 1)
 		self.assertEqual(1, drone.calculate_weight())
+
+	def test_drone_does_not_add_product_when_full(self):
+		drone = Drone(0,0,5)
+		drone.add_product(Product(0, 5), 1)
+		self.assertEqual(False, drone.add_product(Product(0, 1), 1))
+		self.assertEqual(5, drone.calculate_weight())
 
 if __name__ == "__main__":
 	unittest.main()
