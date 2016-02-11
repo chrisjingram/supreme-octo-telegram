@@ -16,16 +16,18 @@ def parse(filename):
 def extract_params(line):
 	nums = line.split(' ')
 	return {
-		'rows': nums[0],
-		'cols': nums[1],
-		'D': nums[2],
-		'deadline': nums[3],
-		'max_load': nums[4]
+		'rows': float(nums[0]),
+		'cols': float(nums[1]),
+		'D': float(nums[2]),
+		'deadline': float(nums[3]),
+		'max_load': float(nums[4])
 	}
 
 if __name__ == "__main__":
 	data = parse(FILENAME)
 	params = extract_params(data[0])
+
+
 
 	print params
 	print 'l'
