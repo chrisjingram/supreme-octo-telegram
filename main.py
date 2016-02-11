@@ -51,14 +51,28 @@ def extract_product_weights(num_product_types, product_weights):
 		products[i] = product_weights[i]
 	return products
 
+def extract_order(order_data):
+	# make new order object
+	order = Order(id, order_data[0].split(' ')[0],  order_data[1].split(' ')[0], products)
+
+def extract_orders(num_orders, orders):
+	order_objects = []
+	for i in range(int(num_orders)):
+		order_objects.append(extract_order([orders[i], orders[i+1], orders[i+2]]))
+
+	return order_objects
+	# data[8] = num_orders
+	# orders = array of strings for each part of an order
+
 def main():
 	data = parse(FILENAME)
 	params = extract_params(data[0])
 	product_weights = extract_product_weights(data[1], data[2])
 
-	warehouses = extract_warehouses(data[3], data[4:4+2*int(data[3])], product_weights)
+	# warehouses = extract_warehouses(data[3], data[4:4+2*int(data[3])], product_weights)
 
-	print warehouses
+	# print warehouses
+	extract_orders(data[8], data[9:9+3*int(data[8])])
 	print 'l'
 
 if __name__ == "__main__":
