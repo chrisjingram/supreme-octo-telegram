@@ -53,7 +53,7 @@ class Simulation():
 
 		# Drop order
 		self.unload_products_from_drone_to_order(drone, order, product, amount)
-		turns += 1
+		turns += 1 
 
 		return turns
 
