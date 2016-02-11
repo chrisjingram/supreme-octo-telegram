@@ -53,7 +53,7 @@ def extract_product_weights(num_product_types, product_weights):
 
 def extract_order(order_data):
 	# make new order object
-	order = Order(id, order_data[0].split(' ')[0],  order_data[1].split(' ')[0], products)
+	order = Order(id, order_data[0].split(' ')[0],  order_data[1].split(' ')[1], products)
 
 def extract_orders(num_orders, orders):
 	order_objects = []
