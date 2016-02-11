@@ -5,4 +5,5 @@ class TestAll(unittest.TestCase):
 		self.assertEqual('hi', 'hi')
 
 print "--------------------"
-unittest.main()
+if __name__ == "__main__":
+	unittest.main()
