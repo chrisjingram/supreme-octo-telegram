@@ -44,5 +44,5 @@ class TestAll(unittest.TestCase):
 		drone.remove_product(1,1)
 		self.assertEqual(1, drone.calculate_weight())
 
-print "--------------------"
-unittest.main()
+if __name__ == "__main__":
+	unittest.main()

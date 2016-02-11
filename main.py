@@ -26,8 +26,9 @@ def extract_params(line):
 if __name__ == "__main__":
 	data = parse(FILENAME)
 	params = extract_params(data[0])
-	print params
 
+	print params
+	print 'l'
 
 
 class TestAll(unittest.TestCase):
