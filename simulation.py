@@ -15,6 +15,10 @@ class Simulation():
 		drone.add_product(product, amount)
 		warehouse.remove_product(product, amount)
 
+	def unload_products_from_drone_to_order(self, drone, order, product, amount):
+		drone.remove_product(product, amount)
+		# Order may want to show collection
+
 
 import unittest
 
