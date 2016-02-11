@@ -29,7 +29,7 @@ class Warehouse(object):
 
 import unittest
 
-class TestAll(unittest.TestCase):
+class TestWarehouse(unittest.TestCase):
 	def test_empty_drone_has_0_weight(self):
 		drone = Warehouse(0, 0,0,defaultdict(int))
 		self.assertEqual(0, drone.calculate_weight())

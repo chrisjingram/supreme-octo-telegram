@@ -9,7 +9,7 @@ class Order(object):
 
 import unittest
 
-class TestAll(unittest.TestCase):
+class TestOrder(unittest.TestCase):
 	def test_construct_one_product(self):
 		products = defaultdict(int)
 		products[1] = 1
