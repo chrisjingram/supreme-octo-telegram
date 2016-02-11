@@ -69,9 +69,9 @@ def main():
 	params = extract_params(data[0])
 	product_weights = extract_product_weights(data[1], data[2])
 
-	# warehouses = extract_warehouses(data[3], data[4:4+2*int(data[3])], product_weights)
+	warehouses = extract_warehouses(data[3], data[4:4+2*int(data[3])], product_weights)
 
-	# print warehouses
+	print warehouses
 	extract_orders(data[8], data[9:9+3*int(data[8])])
 	print 'l'
 
