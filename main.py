@@ -23,13 +23,20 @@ def extract_params(line):
 		'max_load': float(nums[4])
 	}
 
+def extract_products(num_product_types, product_weights):
+	products = {}
+	product_weights = product_weights.split(" ")
+	for i in range(int(num_product_types)):
+		products[str(i)] = product_weights[i]
+	return products
+
 if __name__ == "__main__":
 	data = parse(FILENAME)
 	params = extract_params(data[0])
-
-
+	product_weights = extract_products(data[1], data[2])
 
 	print params
+	print product_weights
 	print 'l'
 
 
