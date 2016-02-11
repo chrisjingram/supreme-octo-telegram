@@ -34,7 +34,7 @@ class Simulation():
 
 		# Go to order location
 		distance = euclidean_distance(drone.x, drone.y, order.x, order.y)
-		turns_for_distance = 1
+		turns_for_distance = int(math.ceil(distance))
 		turns += turns_for_distance
 
 		# Drop order
@@ -83,6 +83,22 @@ class TestSimulation(unittest.TestCase):
 		sim = Simulation([drone], [warehouse_0])
 
 		self.assertEqual(3, sim.calculate_minimum_turns(drone, order_0))
+
+	def test_we_can_complete_example_1_but_with_different_order_location(self):
+		drone = Drone(1, 3, 1000)
+		product_p = Product(0, 5)
+
+		products_0 = {}
+		products_0[product_p] = 1000
+		warehouse_0 = Warehouse(1, 3, products_0)
+
+		order_0_products = {}
+		order_0_products[product_p] = 5
+		order_0 = Order(7, 12, order_0_products)
+
+		sim = Simulation([drone], [warehouse_0])
+
+		self.assertEqual(13, sim.calculate_minimum_turns(drone, order_0))
 
 	def test_basic_euclidean(self):
 		self.assertEqual(5, euclidean_distance(0, 0, 3, 4))
