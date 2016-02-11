@@ -24,14 +24,14 @@ def extract_params(line):
 		'max_load': int(nums[4])
 	}
 
-def extract_warehouse(warehouse, product_weights):
+def extract_warehouse(w, warehouse, product_weights):
 	xy = warehouse[0].split(' ')
 	print xy
 	products = {}
 	product_quantities = warehouse[1].split(' ')
 	for t in range(len(product_quantities)):
 		products[Product(t, product_weights[t])] = product_quantities[t]
-	return Warehouse(xy[0], xy[1], products)
+	return Warehouse(w, xy[0], xy[1], products)
 
 def extract_warehouses(num_warehouses, warehouses, product_weights):
 	warehouses = warehouses[0:int(num_warehouses)*2:2]
@@ -40,7 +40,7 @@ def extract_warehouses(num_warehouses, warehouses, product_weights):
 
 # TODO: keep track of highest and lowest xys
 	for w in range(0, len(warehouses), 2):
-		warehouse_objects.append(extract_warehouse([warehouses[w], warehouses[w+1]], product_weights))
+		warehouse_objects.append(extract_warehouse(w, [warehouses[w], warehouses[w+1]], product_weights))
 
 	return warehouse_objects
 
