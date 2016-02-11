@@ -11,3 +11,7 @@ Unfortunately we were unable to submit any output data based on input data, but 
 We touched on optimising finding the closest items by being aware at the size of the map grid was actually irrelevant, and instead using the actual objects (warehouses, orders) to generate the true bounds of the map. From here we could split up the map into smaller sections and check them.
 
 Further optimisations for that would involve making an octree and only checking the nearest blocks for nearby warehouses / orders.
+
+The core main.py will not run properly, however other files like simulation.py and drone.py can be run to have their tests validated.
+
+https://github.com/chrisjingram/supreme-octo-telegram/
