@@ -1,5 +1,3 @@
-import unittest
-
 print 'hello world'
 
 class Warehouse(object):
@@ -22,7 +20,7 @@ class Order(object):
 
 
 
-
+import unittest
 
 class TestAll(unittest.TestCase):
 	def test_first(self):
