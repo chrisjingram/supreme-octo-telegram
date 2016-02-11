@@ -16,4 +16,5 @@ class TestAll(unittest.TestCase):
 		self.assertEqual(1,products[1])
 
 print "--------------------"
-unittest.main()
+if __name__ == "__main__":
+	unittest.main()
