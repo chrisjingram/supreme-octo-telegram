@@ -5,9 +5,10 @@ from order import *
 import math
 
 class Simulation():
-	def __init__(self, drones, warehouses):
+	def __init__(self, drones=[], warehouses=[], orders=[]):
 		self.drones = drones
 		self.warehouses = warehouses
+		self.orders = orders
 
 	def tick(self):
 		pass
@@ -35,6 +36,13 @@ class Simulation():
 	def calculate_minimum_turns(self, drone, order):
 		(output, turns) = self.generate_output(drone, order)
 		return turns
+
+	def generate_output_for_drone(self, drone):
+		output = []
+		for order in self.orders:
+			(output_for_order, turns) = self.generate_output(drone, order)
+			output.extend(output_for_order)
+		return output
 
 	def generate_output(self, drone, order):
 		turns = 0
@@ -159,6 +167,23 @@ class TestSimulation(unittest.TestCase):
 
 		(output, turns) = sim.generate_output(drone, order_0)
 		self.assertEqual(4, turns)
+		self.assertEqual(['0 L 0 0 5', '0 D 0 0 5'], output)
+
+	def test_we_can_complete_example_1_getting_output(self):
+		drone = Drone(0, 1, 2, 1000)
+		product_p = Product(0, 5)
+
+		products_0 = {}
+		products_0[product_p] = 1000
+		warehouse_0 = Warehouse(0, 1, 3, products_0)
+
+		order_0_products = {}
+		order_0_products[product_p] = 5
+		order_0 = Order(0, 1, 4, order_0_products)
+
+		sim = Simulation([drone], [warehouse_0], [order_0])
+
+		output = sim.generate_output_for_drone(drone)
 		self.assertEqual(['0 L 0 0 5', '0 D 0 0 5'], output)
 
 	def test_basic_euclidean(self):
