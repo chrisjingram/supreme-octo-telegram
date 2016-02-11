@@ -17,3 +17,10 @@ class TestAll(unittest.TestCase):
 
 print "--------------------"
 unittest.main()
+
+def parse():
+	with open("datafile.txt", "r") as f:
+		return f.read()
+
+if __name__ == "__main__":
+	data = parse()
