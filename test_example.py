@@ -1,6 +1,6 @@
 import unittest
 
-class TestAll(unittest.TestCase):
+class TestAllExample(unittest.TestCase):
 	def test_first(self):
 		self.assertEqual('hi', 'hi')
 

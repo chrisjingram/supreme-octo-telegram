@@ -9,6 +9,14 @@ class Simulation():
 		self.drones = drones
 		self.warehouses = warehouses
 		self.orders = orders
+		self.greatest_x = 0
+		self.greatest_y = 0
+		for warehouse in self.warehouses:
+			if(warehouse.x > self.greatest_x):
+				self.greatest_x = warehouse.x
+			if(warehouse.y > self.greatest_y):
+				self.greatest_y = warehouse.y
+		
 
 	def tick(self):
 		pass
@@ -32,6 +40,27 @@ class Simulation():
 				best_warehouse = warehouse
 
 		return (best_warehouse, best_distance)
+
+	def find_closest_warehouse_for_product_optimsed(self, drone, product):
+		mid_x = self.greatest_x / 2
+		mid_y = self.greatest_y / 2
+
+		if (drone.x > mid_x) or (drone.y > mid_y):
+			warehouses = reversed(self.warehouses)
+		else:
+			warehouses = self.warehouses
+
+		best_distance = 10000000
+		best_warehouse = None
+		for warehouse in warehouses:
+			temp_dist = get_turns_for_distances(drone.x, drone.y, warehouse.x, warehouse.y)
+			if temp_dist < best_distance:
+				best_distance = temp_dist
+				best_warehouse = warehouse
+
+		return (best_warehouse, best_distance)
+
+
 
 	def calculate_minimum_turns(self, drone, order):
 		(output, turns) = self.generate_output(drone, order)
@@ -85,6 +114,7 @@ def euclidean_distance(x1, y1, x2, y2):
 	return math.sqrt((x1-x2)**2 + (y1-y2)**2)
 
 import unittest
+import time
 
 class TestSimulation(unittest.TestCase):
 	def test_we_can_load_items_from_a_warehouse_to_a_drone(self):
@@ -215,8 +245,64 @@ class TestSimulation(unittest.TestCase):
 	def test_basic_euclidean(self):
 		self.assertEqual(5, euclidean_distance(0, 0, 3, 4))
 
-	def test_basic_euclidean(self):
+	def test_get_turns(self):
 		self.assertEqual(2, get_turns_for_distances(0, 0, 1, 1))
+
+	def test_greatest_x_y(self):
+		drone = Drone(1,1,10)
+		products = {}
+		warehouse_0 = Warehouse(1, 1, products)
+		warehouse_1 = Warehouse(2, 3, products)
+		warehouse_3 = Warehouse(2, 1, products)
+
+		sim = Simulation([drone], [warehouse_0, warehouse_1])
+		self.assertEqual(2, sim.greatest_x)
+		self.assertEqual(3, sim.greatest_y)
+
+	def test_find_closest_warehouse(self):
+		start = time.clock()
+		drone = Drone(1,1,10)
+		products = {}
+		product_0 = Product(0, 5)
+		products[product_0] = 1
+
+		warehouses = []
+
+		for index_x in range(0, 100):
+			for index_y in range(0,100):
+				warehouses.append(Warehouse(index_x, index_y, products))
+
+		sim = Simulation([drone], warehouses)
+
+		(best_warehouse, best_distance) = sim.find_closest_warehouse_for_product(drone, product_0)
+
+		end = time.clock()
+		print(end - start)
+		self.assertEqual(best_warehouse.x, 1)
+		self.assertEqual(best_warehouse.y, 1)
+
+	def test_find_closest_warehouse_optimised(self):
+		start = time.clock()
+		drone = Drone(80,80,10)
+		products = {}
+		product_0 = Product(0, 5)
+		products[product_0] = 1
+
+		warehouses = []
+
+		for index_x in range(0, 100):
+			for index_y in range(0,100):
+				warehouses.append(Warehouse(index_x, index_y, products))
+
+		sim = Simulation([drone], warehouses)
+
+		(best_warehouse, best_distance) = sim.find_closest_warehouse_for_product_optimsed(drone, product_0)
+
+		end = time.clock()
+		print(end - start)
+		self.assertEqual(best_warehouse.x, 80)
+		self.assertEqual(best_warehouse.y, 80)
+
 
 if __name__ == "__main__":
 	unittest.main()
